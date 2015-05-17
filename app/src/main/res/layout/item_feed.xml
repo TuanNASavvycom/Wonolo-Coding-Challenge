@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_margin="8dp"
+    android:background="@drawable/bg_item_feed"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/header"
+        android:padding="@dimen/_8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgAvata"
+            android:layout_alignParentLeft="true"
+            android:layout_width="@dimen/_40dp"
+            android:layout_height="@dimen/_40dp"/>
+
+        <TextView
+            android:layout_toRightOf="@+id/imgAvata"
+            android:id="@+id/tvUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/wonolo"
+            android:layout_marginLeft="@dimen/_10dp"
+            android:textSize="@dimen/_20sp"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/accent"/>
+    </RelativeLayout>
+    <com.savvycom.wonolocodingchallenge.views.widgets.SquaredFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imgFeed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.savvycom.wonolocodingchallenge.views.widgets.SquaredFrameLayout>
+    <TextView
+        android:id="@+id/tvCaption"
+        android:layout_width="match_parent"
+        android:paddingTop="@dimen/_2dp"
+        android:paddingBottom="@dimen/_2dp"
+        android:paddingLeft="@dimen/_8dp"
+        android:paddingRight="@dimen/_8dp"
+        android:textColor="@color/secondary_text"
+        android:visibility="gone"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/_2dp"
+        android:paddingBottom="@dimen/_2dp"
+        android:paddingLeft="@dimen/_8dp"
+        android:paddingRight="@dimen/_8dp">
+        <ImageButton
+            android:id="@+id/btnLike"
+            android:padding="@dimen/_4dp"
+            android:layout_width="@dimen/_48dp"
+            android:background="@drawable/btn_feed_action"
+            android:layout_height="@dimen/_48dp"
+            android:src="@drawable/ic_heart_outline_grey"/>
+        <ImageButton
+            android:layout_toRightOf="@+id/btnLike"
+            android:id="@+id/btnComments"
+            android:layout_width="@dimen/_48dp"
+            android:padding="@dimen/_4dp"
+            android:background="@drawable/btn_feed_action"
+            android:layout_height="@dimen/_48dp"
+            android:src="@drawable/ic_comment_outline_grey"/>
+        <ImageButton
+            android:layout_toRightOf="@+id/btnComments"
+            android:id="@+id/btnMore"
+            android:layout_width="@dimen/_48dp"
+            android:padding="@dimen/_4dp"
+            android:background="@drawable/btn_feed_action"
+            android:layout_height="@dimen/_48dp"
+            android:src="@drawable/ic_more_grey"/>
+        <LinearLayout
+            android:layout_toRightOf="@+id/btnMore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical|right">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_heart_small_blue" />
+
+            <TextSwitcher
+                android:id="@+id/tsLikesCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:inAnimation="@anim/slide_in_likes_counter"
+                android:outAnimation="@anim/slide_out_likes_counter">
+
+                <TextView
+                    android:id="@+id/tvLikesCounter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="123 likes"
+                    android:textColor="@color/accent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/accent" />
+            </TextSwitcher>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

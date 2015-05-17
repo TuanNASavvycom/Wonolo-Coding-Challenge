@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    tools:context="com.savvycom.wonolocodingchallenge.activities.LoginActivity">
+
+    <LinearLayout
+        android:id="@+id/llNameLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="@dimen/_30sp"
+            android:text="@string/wonolo"
+            android:textColor="@color/icons"
+            android:singleLine="true"
+            fontPath="fonts/billabong.ttf"
+            tools:ignore="MissingPrefix"
+            android:id="@+id/tvApp" />
+
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="@dimen/_15dp"
+            android:contentDescription="@string/image"
+            android:src="@drawable/instagram_128"
+            android:id="@+id/imgLogo" />
+        <RelativeLayout
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_25dp"
+            android:id="@+id/btnLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/_25dp"
+            android:paddingRight="@dimen/_25dp"
+            android:paddingTop="@dimen/_10dp"
+            android:background="@drawable/bg_btn_login"
+            android:paddingBottom="@dimen/_10dp">
+            <TextView
+                android:id="@+id/tvLogin"
+                android:textColor="@color/icons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:text="@string/login"
+                android:textSize="@dimen/_25sp"/>
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

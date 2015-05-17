@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.savvycom.wonolocodingchallenge.activities.DetailsActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        layout="@layout/toolbar" />
+
+    <FrameLayout
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/flContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/llMessage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/tvMessage"
+                android:textStyle="bold"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/_18sp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:text="@string/msg_no_network_connection"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/btnTryAgain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/try_again"/>
+        </LinearLayout>
+        <ProgressBar
+            android:id="@+id/prbLoading"
+            style="@style/Base.Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content" />
+
+        <ListView
+            android:id="@+id/lvFeed"
+            android:paddingLeft="@dimen/_8dp"
+            android:paddingRight="@dimen/_8dp"
+            android:divider="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:visibility="invisible"
+            android:scrollbars="none"
+            android:dividerHeight="@dimen/_10dp"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+</RelativeLayout>
