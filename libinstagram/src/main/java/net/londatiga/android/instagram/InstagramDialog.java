@@ -1,26 +1,21 @@
 package net.londatiga.android.instagram;
 
-import net.londatiga.android.instagram.R;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.content.Context;
-
 import android.view.Display;
 import android.view.ViewGroup;
 import android.view.Window;
-
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;

@@ -16,7 +16,10 @@
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyB1wy3NjUeJrkiLxa-isYlZPF3PI_UGORo" />
+            android:value="AIzaSyDmsY1kVjdZIEdPt0B74Wbd5Luw74LMO2Q" />
+
+        <!--Debug key: AIzaSyDmsY1kVjdZIEdPt0B74Wbd5Luw74LMO2Q-->
+        <!--Release key: AIzaSyB1wy3NjUeJrkiLxa-isYlZPF3PI_UGORo-->
 
         <activity
             android:name=".activities.MainActivity"
