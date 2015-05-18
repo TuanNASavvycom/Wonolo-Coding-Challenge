@@ -24,6 +24,7 @@ public class GPSUtils {
     {
         final AlertDialog.Builder builder =
                 new AlertDialog.Builder(activity);
+        builder.setCancelable(false);
         final String action = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
         final String message = "Enable either GPS or any other location"
                 + " service to find current location.  Click OK to go to"
