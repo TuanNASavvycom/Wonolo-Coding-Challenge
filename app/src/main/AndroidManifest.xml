@@ -8,6 +8,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
+
     <application
         android:name=".WonoloApplication"
         android:allowBackup="true"
@@ -16,17 +20,16 @@
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDmsY1kVjdZIEdPt0B74Wbd5Luw74LMO2Q" />
-
-        <!--Debug key: AIzaSyDmsY1kVjdZIEdPt0B74Wbd5Luw74LMO2Q-->
-        <!--Release key: AIzaSyB1wy3NjUeJrkiLxa-isYlZPF3PI_UGORo-->
+            android:value="AIzaSyB1wy3NjUeJrkiLxa-isYlZPF3PI_UGORo" />
 
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="sensorPortrait">
         </activity>
         <activity
-            android:name=".activities.LoginActivity">
+            android:name=".activities.LoginActivity"
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,7 +38,8 @@
         </activity>
         <activity
             android:name=".activities.DetailsActivity"
-            android:label="@string/title_activity_details" >
+            android:label="@string/title_activity_details"
+            android:screenOrientation="sensorPortrait">
         </activity>
     </application>
 

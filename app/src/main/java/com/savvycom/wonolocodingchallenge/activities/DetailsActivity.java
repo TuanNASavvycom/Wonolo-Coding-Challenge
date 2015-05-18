@@ -107,6 +107,7 @@ public class DetailsActivity extends ButterBaseActivity {
         if (getIntent() != null) {
             instaLocation = getIntent().getExtras().getParcelable(InstaLocation.TAG);
             if (instaLocation == null) return;
+            toolbar.setTitle(instaLocation.getName());
         }
     }
 
@@ -127,6 +128,7 @@ public class DetailsActivity extends ButterBaseActivity {
                     Log.i(TAG, "onCompleted");
                     if (media.getmData() != null && media.getmData().size() > 0) {
                         mFeedAdapter = new FeedAdapter(context, media.getmData());
+                        mBtnTryAgain.setVisibility(View.GONE);
                         mLlMessage.setVisibility(View.GONE);
                         mPrbLoading.setVisibility(View.GONE);
                         mLvFeed.setVisibility(View.VISIBLE);
@@ -141,6 +143,8 @@ public class DetailsActivity extends ButterBaseActivity {
 
                 @Override
                 public void onFailed(Exception ex) {
+                    mTvMessage.setText(getString(R.string.msg_no_network_connection));
+                    mBtnTryAgain.setVisibility(View.GONE);
                     mLlMessage.setVisibility(View.VISIBLE);
                     mPrbLoading.setVisibility(View.GONE);
                     mLvFeed.setVisibility(View.GONE);

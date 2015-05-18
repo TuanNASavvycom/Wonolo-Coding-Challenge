@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.content.pm.FeatureInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -111,16 +109,6 @@ public abstract class ButterBaseActivity extends ActionBarActivity {
         startActivity(clazz, null);
     }
 
-    /**
-     * Replace Fragment
-     * @param containerViewId
-     * @param fragment
-     */
-    protected void replaceFragment(int containerViewId, Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(containerViewId, fragment);
-        fragmentTransaction.commit();
-    }
     /*Check Google Play Service*/
     protected boolean readyToGo() {
         int status=

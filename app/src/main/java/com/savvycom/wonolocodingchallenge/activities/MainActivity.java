@@ -27,8 +27,6 @@ import com.savvycom.wonolocodingchallenge.managers.GlobalValue;
 import com.savvycom.wonolocodingchallenge.managers.InstagramApi;
 import com.savvycom.wonolocodingchallenge.models.pojo.InstaLocation;
 import com.savvycom.wonolocodingchallenge.models.pojo.location.Locations;
-import com.savvycom.wonolocodingchallenge.utils.BestLocationListener;
-import com.savvycom.wonolocodingchallenge.utils.BestLocationProvider;
 import com.savvycom.wonolocodingchallenge.utils.GPSUtils;
 import com.savvycom.wonolocodingchallenge.utils.NetworkUtils;
 import com.savvycom.wonolocodingchallenge.utils.ToastUtils;
@@ -40,7 +38,7 @@ import java.util.List;
 
 import butterknife.InjectView;
 
-public class MainActivity extends ButterBaseActivity implements GoogleMap.OnCameraChangeListener,OnMarkerClickListener{
+public class MainActivity extends ButterBaseActivity implements GoogleMap.OnCameraChangeListener,OnMarkerClickListener,GoogleMap.OnMyLocationChangeListener{
     @InjectView(R.id.mapView)
     MapView mMapView;
 
@@ -49,9 +47,6 @@ public class MainActivity extends ButterBaseActivity implements GoogleMap.OnCame
     private InstagramUser user;
     private int first_location = 1;
     private HashMap<Marker, InstaLocation> mMarkerHasMap;
-    private BestLocationProvider mBestLocationProvider;
-    private BestLocationListener mBestLocationListener;
-    private Marker lastOpened = null;
 
     @Override
     protected int getLayoutResource() {
@@ -78,10 +73,11 @@ public class MainActivity extends ButterBaseActivity implements GoogleMap.OnCame
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        getDataFromIntent();
         if (!GPSUtils.isOn(this)) {
             GPSUtils.displayPromptForEnablingGPS(this);
         }
+        user = GlobalValue.getInstance().getInstagramUser();
+        if (user == null) return;
     }
 
     @Override
@@ -101,16 +97,12 @@ public class MainActivity extends ButterBaseActivity implements GoogleMap.OnCame
 
     @Override
     protected void onResume() {
-        initLocation();
-        mBestLocationProvider.startLocationUpdatesWithListener(mBestLocationListener);
         super.onResume();
         mMapView.onResume();
     }
 
     @Override
     public void onPause() {
-        initLocation();
-        mBestLocationProvider.stopLocationUpdates();
         super.onPause();
         mMapView.onPause();
     }
@@ -150,6 +142,11 @@ public class MainActivity extends ButterBaseActivity implements GoogleMap.OnCame
     }
 
     @Override
+    public void onMyLocationChange(Location location) {
+        sendLocationMessage(location);
+    }
+
+    @Override
     public boolean onMarkerClick(Marker marker) {
         // Event was handled by our code do not launch default behaviour.
         if (mMarkerHasMap.containsKey(marker)) {
@@ -163,13 +160,6 @@ public class MainActivity extends ButterBaseActivity implements GoogleMap.OnCame
         return false;
     }
 
-    protected void getDataFromIntent() {
-        if (getIntent() != null) {
-            user = getIntent().getParcelableExtra(LoginActivity.INSTAGRAM_USER);
-            if (user == null) return;
-            GlobalValue.getInstance().setInstagramUser(user);
-        }
-    }
 
     private void initMap(){
         mMapView.onResume();
@@ -186,42 +176,7 @@ public class MainActivity extends ButterBaseActivity implements GoogleMap.OnCame
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         googleMap.setMyLocationEnabled(true);
         googleMap.getUiSettings().setCompassEnabled(true);
-    }
-
-    private void initLocation(){
-        if(mBestLocationListener == null){
-            mBestLocationListener = new BestLocationListener() {
-
-                @Override
-                public void onStatusChanged(String provider, int status, Bundle extras) {
-                    Log.i(TAG, "onStatusChanged PROVIDER:" + provider + " STATUS:" + String.valueOf(status));
-                }
-
-                @Override
-                public void onProviderEnabled(String provider) {
-                    Log.i(TAG, "onProviderEnabled PROVIDER:" + provider);
-                }
-
-                @Override
-                public void onProviderDisabled(String provider) {
-                    Log.i(TAG, "onProviderDisabled PROVIDER:" + provider);
-                }
-
-                @Override
-                public void onLocationUpdateTimeoutExceeded(BestLocationProvider.LocationType type) {
-                    Log.w(TAG, "onLocationUpdateTimeoutExceeded PROVIDER:" + type);
-                }
-
-                @Override
-                public void onLocationUpdate(Location location, BestLocationProvider.LocationType type,
-                                             boolean isFresh) {
-                    sendLocationMessage(location);
-                }
-            };
-            if(mBestLocationProvider == null){
-                mBestLocationProvider = new BestLocationProvider(this, true, true, 10000, 1000, 2, 0);
-            }
-        }
+        googleMap.setOnMyLocationChangeListener(this);
     }
 
     /**
@@ -236,7 +191,6 @@ public class MainActivity extends ButterBaseActivity implements GoogleMap.OnCame
         bundle.putDouble("LON", location.getLongitude());
         msgObj.setData(bundle);
         locationHandler.sendMessage(msgObj);
-
     }
 
     private final Handler locationHandler = new Handler() {
@@ -290,7 +244,7 @@ public class MainActivity extends ButterBaseActivity implements GoogleMap.OnCame
                     instaLocation.getLat(),
                     instaLocation.getLon()));
             markerOption.icon(BitmapDescriptorFactory
-                    .fromResource(R.drawable.instagram_marker));
+                    .fromResource(R.drawable.instagram_marker_48));
             markerOption.title(instaLocation.getName());
             Marker currentMarker = googleMap
                     .addMarker(markerOption);
@@ -306,7 +260,7 @@ public class MainActivity extends ButterBaseActivity implements GoogleMap.OnCame
      */
     private void zoomToPosition(double latitude, double longitude) {
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(latitude, longitude)).zoom(GlobalConfig.ZOOM_LEVEL).build();
+                .target(new LatLng(latitude, longitude)).zoom(GlobalConfig.MAP_ZOOM_LEVEL).build();
         googleMap.animateCamera(CameraUpdateFactory
                 .newCameraPosition(cameraPosition));
     }
@@ -342,7 +296,7 @@ public class MainActivity extends ButterBaseActivity implements GoogleMap.OnCame
     public void onLogout(){
         final AlertDialog.Builder builder =
                 new AlertDialog.Builder(MainActivity.this);
-        final String message = "Are you sure ?";
+        final String message =getString(R.string.msg_confirm_logout);
         builder.setMessage(message)
                 .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
@@ -361,4 +315,6 @@ public class MainActivity extends ButterBaseActivity implements GoogleMap.OnCame
                         });
         builder.create().show();
     }
+
+
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ public class LoginActivity extends ActionBarActivity {
     @InjectView(R.id.btnLogin)
     RelativeLayout mBtnLogin;
 
+    private static final String TAG = LoginActivity.class.getName();
     public static final String INSTAGRAM_USER = "INSTAGRAM_USER";
 
     private Context mContext;
@@ -37,12 +39,12 @@ public class LoginActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mInstagram = new Instagram(this, GlobalConfig.CLIENT_ID, GlobalConfig.CLIENT_SECRET, GlobalConfig.REDIRECT_URI);
+        mInstagram = new Instagram(this, GlobalConfig.INSTAGRAM_CLIENT_ID, GlobalConfig.INSTAGRAM_CLIENT_SECRET, GlobalConfig.INSTAGRAM_REDIRECT_URI);
         mInstagramSession = mInstagram.getSession();
         if (mInstagramSession.isActive()) {
             GlobalValue.getInstance().setInstagramSession(mInstagramSession);
             GlobalValue.getInstance().setInstagramUser(mInstagramSession.getUser());
-            startActivity(MainActivity.class, mInstagramSession.getUser());
+            startActivity(MainActivity.class);
             finish();
         } else {
             setContentView(R.layout.activity_login);
@@ -56,7 +58,7 @@ public class LoginActivity extends ActionBarActivity {
         public void onSuccess(InstagramUser user) {
             GlobalValue.getInstance().setInstagramSession(mInstagramSession);
             GlobalValue.getInstance().setInstagramUser(mInstagramSession.getUser());
-            startActivity(MainActivity.class, mInstagramSession.getUser());
+            startActivity(MainActivity.class);
             finish();
         }
 
@@ -67,7 +69,7 @@ public class LoginActivity extends ActionBarActivity {
 
         @Override
         public void onCancel() {
-            ToastUtils.quickToast(mContext, "OK. Maybe later?");
+            Log.i(TAG, "onCancel");
         }
     };
 
@@ -87,14 +89,10 @@ public class LoginActivity extends ActionBarActivity {
     /**
      * Start Activity
      * @param clazz
-     * @param user
      */
-    private void startActivity(Class clazz, InstagramUser user) {
+    private void startActivity(Class clazz) {
         try {
             Intent intent = new Intent(this, clazz);
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(INSTAGRAM_USER, user);
-            intent.putExtras(bundle);
             startActivity(intent);
         } catch (Exception ex) {
             ex.printStackTrace();
